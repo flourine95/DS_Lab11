@@ -1,7 +1,6 @@
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public class BST<E extends Comparable<E>> {
     private BNode<E> root;
@@ -12,31 +11,10 @@ public class BST<E extends Comparable<E>> {
 
     // Add element e into BST
     public void add(E e) {
-        BNode<E> value = new BNode<>(e);
         if (root == null) {
-            System.out.println("Add ROOT sucess w. value: " + value.getData());
-            root = value;
+            root = new BNode<>(e);
         } else {
-            BNode<E> temp = root;
-            while (temp != null) {
-                if (e.compareTo(temp.getData()) > 0) {
-                    if (temp.getRight() == null) {
-                        temp.setRight(value);
-                        System.out.println("Add RIGHT sucess w. value: " + value.getData());
-                        break;
-                    } else {
-                        temp = temp.getRight();
-                    }
-                } else {
-                    if (temp.getLeft() == null) {
-                        temp.setLeft(value);
-                        System.out.println("Add LEFT sucess w. value: " + value.getData());
-                        break;
-                    } else {
-                        temp = temp.getLeft();
-                    }
-                }
-            }
+            root.add(e);
         }
     }
 
@@ -49,105 +27,101 @@ public class BST<E extends Comparable<E>> {
 
     // compute the depth of a node in BST
     public int depth(E node) {
-        int depth = 0;
-        boolean isFinded = false;
-        BNode<E> current = root;
-        while (current != null) {
-            if (node.compareTo(current.getData()) < 0) {
-                current = current.getLeft();
-            } else if (node.compareTo(current.getData()) > 0) {
-                current = current.getRight();
-            } else {
-                isFinded = true;
-                break;
-            }
-            depth++;
+        if (root == null) {
+            return -1;
         }
-        return isFinded ? depth : -1;
+        return root.depth(node);
     }
-
 
     // compute the height of BST
     public int height() {
         if (root == null) {
-            return 0;
+            return -1;
         }
-        Queue<BNode<E>> q = new LinkedList<>();
-        q.add(root);
-        int height = 0;
-        while (!q.isEmpty()) {
-            BNode<E> node = q.remove();
-            if (node.getLeft() != null) {
-                q.add(node.getLeft());
-            }
-            if (node.getRight() != null) {
-                q.add(node.getRight());
-            }
-        }
-        return 1;
-    }
-
-    public int height(BNode<E> root) {
-        if (root == null) {
-            return 0;
-        }
-        int leftHeight = height(root.getLeft());
-        int rightHeight = height(root.getRight());
-
-        return Math.max(leftHeight, rightHeight) + 1;
+        return root.height();
     }
 
     // Compute total nodes in BST
     public int size() {
-// TODO
-        return -1;
+        if (root == null) {
+            return 0;
+        }
+        return root.size();
     }
 
     // Check whether element e is in BST
-    public boolean contains(BNode<E> node, E e) {
+    public boolean contains(E e) {
         if (root == null) {
             return false;
         }
-        if (e.compareTo(root.getData()) == 0) {
-            return true;
-        } else if (e.compareTo(root.getData()) < 0) {
-            return contains(root.getLeft(), e);
-        } else {
-            return contains(root.getRight(), e);
-        }
+        return root.contains(e);
+
     }
 
     // Find the minimum element in BST
     public E findMin() {
-// TODO
-        return null;
+        if (root == null) {
+            return null;
+        }
+        return root.findMin();
     }
 
     // Find the maximum element in BST
     public E findMax() {
-// TODO
-        return null;
+        if (root == null) {
+            return null;
+        }
+        return root.findMax();
     }
 
     // Remove element e from BST
     public boolean remove(E e) {
-// TODO
-        return false;
+        if (root == null || !root.contains(e)) {
+            return false;
+        }
+        return root.remove(e);
     }
 
     // get the descendants of a node
     public List<E> descendants(E data) {
-// TODO
-        return null;
+        if (root == null) {
+            return null;
+        }
+        return root.descendants(data);
     }
 
     // get the ancestors of a node
     public List<E> ancestors(E data) {
-// TODO
-        return null;
+        if (root == null) {
+            return null;
+        }
+        return root.ancestors(data);
     }
 
     public BNode<E> getRoot() {
         return root;
+    }
+
+    // display BST using inorder
+    public void inorder() {
+        if (root == null) {
+            return;
+        }
+        root.inorder();
+
+    }
+
+    // display BST using preorder approach
+    public void preorder() {
+        if (root == null) {
+            return;
+        }
+        root.preorder();
+    }
+    public void postorder() {
+        if (root == null) {
+            return;
+        }
+        root.postorder();
     }
 }
